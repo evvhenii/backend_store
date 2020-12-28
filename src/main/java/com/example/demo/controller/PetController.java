@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.config.ConfiguredModelMapper;
 import com.example.demo.dto.PetCreating;
 import com.example.demo.dto.PetInformation;
+import com.example.demo.dto.PetSummary;
 import com.example.demo.entity.Pet;
 import com.example.demo.exception.ValidationException;
 import com.example.demo.service.PetService;
@@ -43,27 +44,27 @@ public class PetController {
     }
 	
 	@GetMapping("my_pets")
-    public List<PetInformation> findMyPets(Principal principal) {
+    public List<PetSummary> findMyPets(Principal principal) {
         log.info("Handling find my pets request");
         
         int id = Integer.parseInt(principal.getName());
         
         List<Pet> pets = petService.findByUserId(id);
-        List<PetInformation> petDtos = pets
+        List<PetSummary> petDtos = pets
         		  .stream()
-        		  .map(pet -> modelMapper.map(pet, PetInformation.class))
+        		  .map(pet -> modelMapper.map(pet, PetSummary.class))
         		  .collect(Collectors.toList());
         
         return petDtos;
     }
 	
 	@GetMapping("pets/findAll")
-    public List<PetInformation> findAllPets() {
+    public List<PetSummary> findAllPets() {
         log.info("Handling find all pets request");
         List<Pet> pets = petService.findAll();
-        List<PetInformation> petDtos = pets
+        List<PetSummary> petDtos = pets
         		  .stream()
-        		  .map(pet -> modelMapper.map(pet, PetInformation.class))
+        		  .map(pet -> modelMapper.map(pet, PetSummary.class))
         		  .collect(Collectors.toList());
         
         return petDtos;
@@ -71,18 +72,18 @@ public class PetController {
 	
 	//Тварини на які користувач зробив запит
 	@GetMapping("requested_pets")
-    public List<PetInformation> findRequestedPets(Principal principal) {
+    public List<PetSummary> findRequestedPets(Principal principal) {
         log.info("Handling find requested pets request");
         List<Pet> pets = petService.getRequestedPets(principal);
-        List<PetInformation> petDtos = pets
+        List<PetSummary> petDtos = pets
         		  .stream()
-        		  .map(pet -> modelMapper.map(pet, PetInformation.class))
+        		  .map(pet -> modelMapper.map(pet, PetSummary.class))
         		  .collect(Collectors.toList());
         
         return petDtos;
     }
 	
-	@GetMapping("/pets/get/{id}")
+	@GetMapping("/pets/{id}")
     public ResponseEntity<PetInformation> getPetById(@PathVariable int id) {
         log.info("Handling get pet request: " + id);
         Optional<Pet> optPet = petService.findById(id);
@@ -92,7 +93,7 @@ public class PetController {
       
     }
 	
-	@DeleteMapping("/pets/delete/{id}")
+	@DeleteMapping("/pets/{id}")
     public ResponseEntity<Void> deletePets(@PathVariable Integer id) {
         log.info("Handling delete user request: " + id);
         petService.deletePet(id);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PetInformation {
+public class PetSummary {
 	private int petId;
 	
 	private String name;
@@ -18,11 +18,5 @@ public class PetInformation {
     
     private String gender;
     
-    private String description;
-    
     private String imageUrl;
-    
-    int daysAfterAdding;
-    
-    private Integer userId;
 }

@@ -23,7 +23,7 @@ public class Request {
     private String message;
     
     @Column
-    private Boolean accepted;
+    private String contactInfo;
 
     @Column
     private int userId;

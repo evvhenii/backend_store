@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +24,11 @@ public class AuthRegistrationController {
     private final ConfiguredModelMapper modelMapper = new ConfiguredModelMapper();
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody RegistrationProfile registrationProfile) throws ValidationException {
+    public ResponseEntity<String> registerUser(@RequestBody RegistrationProfile registrationProfile) throws ValidationException {
+    	System.out.println(registrationProfile);
     	User user = modelMapper.map(registrationProfile, User.class);
         userService.saveUser(user);
-        return "OK";
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/auth")

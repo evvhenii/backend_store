@@ -2,10 +2,10 @@ package com.example.demo.service.impl;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Pet;
 import com.example.demo.entity.Request;
@@ -33,7 +33,7 @@ public class RequestServiceImpl implements RequestService {
 		int petOwnerId = petOpt.get().getUserId();
 		if(petOwnerId == userId) return false;
 		
-		request.setAccepted(null);
+		//request.setAccepted(null);
 		request.setRequestDate(LocalDateTime.now());
 		request.setUserId(userId);
 		request.setPetId(petId);
@@ -53,6 +53,11 @@ public class RequestServiceImpl implements RequestService {
 	}
 	
 	@Override
+	public List<Request> findRequestsByPetId(int petId){
+		return requestRepository.getRequestsByPetId(petId);
+	}
+	
+	/*@Override
 	@Transactional
 	public boolean changeRequest(Request request, Principal principal, int requestId) {
 		int userId = Integer.parseInt(principal.getName());
@@ -64,5 +69,5 @@ public class RequestServiceImpl implements RequestService {
 		newRequest.setAccepted(request.getAccepted());
 		
 		return true;
-	}
+	}*/
 }
